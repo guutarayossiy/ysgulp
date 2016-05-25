@@ -1,0 +1,27 @@
+{
+  "paths" : {
+    "base" : "../",
+    "src" : {
+      "scss"  : "../sass/**/*.scss",
+      "css"   :"../css/**/*.css",
+      "js"    :"../js/**/*.js",
+      "coffee":"../coffee/**/*.coffee",
+      "html"  :"../*.html",
+      "php"   :"../*.php"
+    },
+    "dist" : {
+      "js" : "../js"
+    }
+  },
+  "compass" : {
+    "configrb":"../sass/config.rb"
+  },
+  "cmq" : {
+    "distcss" :"../css/dist"
+  },
+  "browsersync" : {
+    "startPath" : "index.html",
+    "port" : "3000",
+    "open" : "external"
+  }
+}
