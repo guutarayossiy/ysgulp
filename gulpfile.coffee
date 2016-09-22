@@ -12,11 +12,26 @@ rename       = require 'gulp-rename'
 config       = require './gulpconfig'
 
 #-----------------------
+# path
+#-----------------------
+path_src_html   = config.paths.base + config.paths.src.html
+path_src_css    = config.paths.base + config.paths.src.css
+path_src_js     = config.paths.base + config.paths.src.js
+path_src_scss   = config.paths.base + config.paths.src.scss
+path_src_coffee = config.paths.base + config.paths.src.coffee
+path_src_php    = config.paths.base + config.paths.src.php
+
+path_dest_css   = config.paths.base + config.paths.dest.css
+path_dest_js   = config.paths.base + config.paths.dest.js
+path_dest_cmq   = config.paths.base + config.cmq.destcss
+
+
+#-----------------------
 #sass
 #-----------------------
 gulp.task 'sass', ->
   gulp
-    .src config.paths.src.scss
+    .src path_src_scss
     .pipe plumber
       errorHandler: (err) ->
         console.log(err.messageFormatted)
@@ -29,14 +44,14 @@ gulp.task 'sass', ->
     .pipe cmq
       log: true
     .pipe cssmin()
-    .pipe gulp.dest(config.paths.dest.css)
+    .pipe gulp.dest(path_dest_css)
 
 #-----------------------
 # CoffeeScript
 #-----------------------
 gulp.task 'coffee', ->
   gulp
-    .src config.paths.src.coffee
+    .src path_src_coffee
     .pipe plumber
       errorHandler: (err) ->
         console.log(err.messageFormatted)
@@ -46,7 +61,7 @@ gulp.task 'coffee', ->
       preserveComments: 'some'
     .pipe rename
       suffix : '.min'
-    .pipe gulp.dest(config.paths.dest.js)
+    .pipe gulp.dest(path_dest_js)
 
 #-----------------------
 # browser-sync
@@ -71,23 +86,23 @@ gulp.task 'bs-reload', ->
 #-----------------------
 gulp.task 'cmq',->
   gulp
-    .src config.paths.src.css
+    .src path_src_css
     .pipe cmq
       log: true
-    .pipe gulp.dest(config.cmq.destcss)
+    .pipe gulp.dest(path_dest_cmq)
 
 
 #-----------------------
 # Watch
 #-----------------------
 gulp.task 'watch',['browser-sync','sass','coffee'],->
-  watch [config.paths.src.scss], (event)->
+  watch [path_src_scss], (event)->
     gulp.start 'sass'
-  watch [config.paths.src.coffee], (event)->
+  watch [path_src_coffee], (event)->
     gulp.start 'coffee'
-  watch [config.paths.src.html,config.paths.src.css], (event)->
+  watch [path_src_html,path_src_css], (event)->
     gulp.start 'bs-reload'
-  watch [config.paths.src.js,config.paths.src.php], (event)->
+  watch [path_src_js,path_src_php], (event)->
     gulp.start 'bs-reload'
 
 #-----------------------
