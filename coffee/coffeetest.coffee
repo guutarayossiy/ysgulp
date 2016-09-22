@@ -7,14 +7,12 @@ cmq          = require 'gulp-combine-media-queries'
 watch        = require 'gulp-watch'
 coffee       = require 'gulp-coffee'
 autoprefixer = require 'gulp-autoprefixer'
-uglify       = require 'gulp-uglify'
-rename       = require 'gulp-rename'
 config       = require './gulpconfig'
 
 #-----------------------
-#sass
+#sass compile
 #-----------------------
-gulp.task 'sass', ->
+gulp.task 'compile-sass', ->
   gulp
     .src config.paths.src.scss
     .pipe plumber
@@ -34,7 +32,7 @@ gulp.task 'sass', ->
 #-----------------------
 # CoffeeScript
 #-----------------------
-gulp.task 'coffee', ->
+gulp.task 'compile-coffee', ->
   gulp
     .src config.paths.src.coffee
     .pipe plumber
@@ -42,10 +40,6 @@ gulp.task 'coffee', ->
         console.log(err.messageFormatted)
         this.emit('end')
     .pipe coffee()
-    .pipe uglify
-      preserveComments: 'some'
-    .pipe rename
-      suffix : '.min'
     .pipe gulp.dest(config.paths.dest.js)
 
 #-----------------------
@@ -80,11 +74,11 @@ gulp.task 'cmq',->
 #-----------------------
 # Watch
 #-----------------------
-gulp.task 'watch',['browser-sync','sass','coffee'],->
+gulp.task 'watch',['browser-sync','compile-sass'],->
   watch [config.paths.src.scss], (event)->
-    gulp.start 'sass'
+    gulp.start 'compile-sass'
   watch [config.paths.src.coffee], (event)->
-    gulp.start 'coffee'
+    gulp.start 'compile-coffee'
   watch [config.paths.src.html,config.paths.src.css], (event)->
     gulp.start 'bs-reload'
   watch [config.paths.src.js,config.paths.src.php], (event)->

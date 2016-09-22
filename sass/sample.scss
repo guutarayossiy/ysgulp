@@ -1,0 +1,25 @@
+.sample {
+  display: flex;
+  @media screen and (min-width: 600px) {
+    display: block;
+  }
+  @media screen and (min-width: 960px) {
+    display: inline-block;
+  }
+  @media screen and (min-width: 1240px) {
+    display: inline;
+  }
+}
+
+.sample2 {
+  display: flex;
+  @media screen and (min-width: 600px) {
+    display: block;
+  }
+  @media screen and (min-width: 960px) {
+    display: inline-block;
+  }
+  @media screen and (min-width: 1240px) {
+    display: inline;
+  }
+}

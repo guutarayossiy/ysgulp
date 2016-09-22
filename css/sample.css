@@ -1,0 +1,1 @@
+.sample,.sample2{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex}@media screen and (min-width:600px){.sample,.sample2{display:block}}@media screen and (min-width:960px){.sample,.sample2{display:inline-block}}@media screen and (min-width:1240px){.sample,.sample2{display:inline}}
