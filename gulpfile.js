@@ -11,29 +11,40 @@ var coffee				 = require('gulp-coffee');
 //難あり
 var cmq						 = require('gulp-combine-media-queries');
 
-//ルートdir
+/**
+ * ルートdir
+ * @type {String}
+ */
 var root = './';
 
-//browserSyncで監視するファイル
+/**
+ * browserSyncで監視するファイル
+ */
 var bS_WatchFiles = [
 	root + 'css/*.min.css',
 	root + 'js/*.min.js',
 	root + '**/*.php'
 ];
 
-//browserSyncのオプション
+/**
+ * browserSyncのオプション
+ */
 var bS_Options = {
 	proxy: "site.dev",
 	open : "external",
 	port : "3000"
 };
 
-//sassコンパイルの対象
+/**
+ * sassコンパイルの対象
+ */
 var src_sass = [
 	root + 'sass/**/*.scss'
 ]
 
-//css圧縮処理等の対象
+/**
+ * css圧縮処理等の対象
+ */
 var src_css = [
 	root + 'css/*.css',
 	'!' + root + 'css/*.min.css',
@@ -41,21 +52,25 @@ var src_css = [
 ]
 var dest_css = root + 'css';
 
-//js圧縮処理等の対象
+/**
+ * js圧縮処理等の対象
+ */
 var src_js = [
 	root + 'js/*.js',
 	'!' + root + 'js/*.min.js'
 ]
 var dest_js = root + 'js';
 
-// CoffeeScriptのコンパイル対象
+/**
+ * CoffeeScriptのコンパイル対象
+ */
 var src_coffee = [
 	root + 'coffee/*.coffee'
 ]
 
-//------------------------------------------------------------------------
-//sassコンパイル
-//------------------------------------------------------------------------
+/**
+ * sassコンパイル
+ */
 gulp.task('sass', function() {
 	gulp.src(src_sass)
 		.pipe(plumber({
@@ -73,9 +88,9 @@ gulp.task('sass', function() {
 });
 
 
-//------------------------------------------------------------------------
-//css圧縮
-//------------------------------------------------------------------------
+/**
+ * css圧縮
+ */
 gulp.task('mincss', function() {
 	gulp.src(src_css)
 		.pipe(plumber({
@@ -89,9 +104,9 @@ gulp.task('mincss', function() {
 		.pipe(gulp.dest(dest_css));
 });
 
-//------------------------------------------------------------------------
-//coffeeスクリプトコンパイル
-//------------------------------------------------------------------------
+/**
+ * coffeeスクリプトコンパイル
+ */
 gulp.task('coffee', function() {
 	gulp.src(src_coffee)
 		.pipe(plumber({
@@ -106,9 +121,9 @@ gulp.task('coffee', function() {
 
 
 
-//------------------------------------------------------------------------
-//js圧縮
-//------------------------------------------------------------------------
+/**
+ * js圧縮
+ */
 gulp.task('minjs', function() {
 	gulp.src(src_js)
 		.pipe(plumber({
@@ -123,24 +138,24 @@ gulp.task('minjs', function() {
 });
 
 
-//------------------------------------------------------------------------
-//browser-sync init
-//------------------------------------------------------------------------
+/**
+ * browser-sync init
+ */
 gulp.task('bs-init', function() {
 	browserSync.init(bS_Options);
 });
 
-//------------------------------------------------------------------------
-//browser-sync reload
-//------------------------------------------------------------------------
+/**
+ * browser-sync reload
+ */
 gulp.task('bs-reload', function() {
 	browserSync.reload()
 });
 
 
-//------------------------------------------------------------------------
-//メディアクエリをゴニョゴニョ
-//------------------------------------------------------------------------
+/**
+ * メディアクエリをキレイにまとめる
+ */
 gulp.task('cmq', function() {
 	gulp.src(src_css)
 		.pipe(plumber({
@@ -156,30 +171,42 @@ gulp.task('cmq', function() {
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//watch
-///////////////////////////////////////////////////////////////////////////////////////////////
-//コード関連
+/**
+ * watch
+ */
 gulp.task('watch',['sass'],function() {
+	/**
+	 * sassコンパイル
+	 */
 	watch(src_sass, function(event) {
 		gulp.start('sass');
 	});
+	/**
+	 * JSのコンパイル
+	 */
 	watch(src_js, function(event) {
 		gulp.start('minjs');
 	});
+	/**
+	 * CSSの圧縮
+	 */
 	watch(src_css, function(event) {
 		gulp.start('mincss');
 	});
 });
 
-//browserSync
+/**
+ * browserSync
+ */
 gulp.task('watch-bs',['bs-init','watch'],function() {
 	watch(bS_WatchFiles, function(event) {
 		gulp.start('bs-reload');
 	});
 });
 
-//sassのみ
+/**
+ * sassコンパイルのみ
+ */
 gulp.task('watch-sass',['sass'],function() {
 	watch(src_sass, function(event) {
 		gulp.start('sass');
