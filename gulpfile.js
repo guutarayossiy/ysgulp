@@ -48,7 +48,6 @@ var src_sass = [
 var src_css = [
 	root + 'css/*.css',
 	'!' + root + 'css/*.min.css',
-	'!' + root + 'css/ys-editor-style.css'
 ]
 var dest_css = root + 'css';
 
